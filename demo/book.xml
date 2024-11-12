@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<booklist>
+	<book kind = "컴퓨터">
+		<title>java</title>
+		<autjor>배수지</autjor>
+		<price>1000</price>
+	</book>
+	
+	<book kind = "소설">
+		<title>자바의 하루</title>
+		<autjor>박민영</autjor>
+		<price>2000</price>
+	</book>
+
+</booklist>
