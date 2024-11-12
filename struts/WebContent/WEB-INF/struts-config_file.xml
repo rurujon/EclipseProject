@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+"http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="fileForm" type="com.file.FileForm"/>
+	</form-beans>
+	
+	<action-mappings>
+		<action path="/fileTest" type="com.file.FileAction" 
+		name="fileForm" scope="request" parameter="method">
+			<forward name="write" path="/file/write.jsp"/>
+			<forward name="write_ok" redirect="true" path="/fileTest.do?method=list"/>
+			<forward name="list" path="/file/list.jsp"/>
+			<forward name="delete_ok" redirect="true" path="/fileTest.do?method=list"/>
+		</action>
+	</action-mappings>
+
+
+</struts-config>
