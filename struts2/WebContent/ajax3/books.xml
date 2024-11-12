@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+	<book>
+		<title>겨울왕국</title>
+		<author>디즈니</author>
+	</book>
+	<book>
+		<title>블랙핑크 성공기</title>
+		<author>Netflix</author>
+	</book>
+	<book>
+		<title>이솝우화</title>
+		<author>미드</author>
+	</book>
+	<book>
+		<title>악동 트럼프</title>
+		<author>바이든</author>
+	</book>
+
+</books>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC
+"-//ibatis.apache.org/DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="board">
+
+<typeAlias alias="boardDTO" type="com.board.BoardDTO"/>
+
+<select id="maxNum" resultClass="int">
+	select nvl(max(num),0) from bbs
+</select>
+
+<insert id="insertData" parameterClass="boardDTO">
+	insert into bbs
+	(num,name,pwd,email,subject,content,ipAddr,groupNum,depth,
+	orderNo,parent,hitCount,created) values
+	(#num#,#name#,#pwd#,#email#,#subject#,#content#,#ipAddr#,#groupNum#,#depth#,
+	#orderNo#,#parent#,0,sysdate)
+</insert>
+
+<select id="dataCount" resultClass="int" parameterClass="map">
+	select nvl(count(*),0) from bbs
+	where $searchKey$ like '%' || #searchValue# || '%'
+
+</select>
+
+<select id="listData" resultClass="boardDTO" parameterClass="map">
+	select * from (
+	select rownum rnum, data.* from(
+	select num,name,subject,depth,hitCount,
+	to_char(created, 'YYYY-MM-DD') created from bbs
+	where $searchKey$ like '%' || #searchValue# || '%'
+	order by groupNum desc, orderNo asc) data)
+<![CDATA[
+	where rnum>=#start# and rnum<=#end#
+]]>
+	
+</select>
+
+<update id="hitCountUpdate" parameterClass="int">
+	update bbs set hitCount=hitCount+1 where num=#num#
+</update>
+
+<select id="readData" parameterClass="int" resultClass="boardDTO">
+	select num,name,pwd,email,subject,content,ipAddr,groupNum,depth,
+	orderNo,parent,hitCount,created from bbs where num=#num#
+</select>
+
+<select id="preReadData" parameterClass="map" resultClass="boardDTO">
+	select data.* from(
+	select num,subject from bbs
+	where ($searchKey$ like '%' || #searchValue# || '%') and
+<![CDATA[
+	((groupNum = #groupNum# and orderNo < #orderNo#) or
+	(groupNum > #groupNum#))
+	order by groupNum asc, orderNo desc) data
+	where rownum=1
+]]>
+</select>
+
+<select id="nextReadData" parameterClass="map" resultClass="boardDTO">
+	select data.* from(
+	select num,subject from bbs
+	where ($searchKey$ like '%' || #searchValue# || '%') and
+<![CDATA[
+	((groupNum = #groupNum# and orderNo > #orderNo#) or
+	(groupNum < #groupNum#))
+	order by groupNum desc, orderNo asc) data
+	where rownum=1
+]]>
+</select>
+
+<!-- 답변인 경우 순서 변경 -->
+<update id="orderNoUpdate">
+	update bbs set orderNo=orderNo+1
+	where groupNum=#groupNum# and orderNo>#orderNo#
+
+</update>
+
+<update id="updateData" parameterClass="boardDTO">
+	update bbs set name = #name#, subject=#subject#,email=#email#,
+	content=#content#, pwd=#pwd# where num=#num#
+</update>
+
+<delete id="deleteData">
+	delete bbs where num in
+	(select num from bbs start with num=#num#
+	connect by prior num=parent)
+
+</delete>
+
+</sqlMap>
