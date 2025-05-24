@@ -8,8 +8,6 @@
 
 ![Image](https://github.com/user-attachments/assets/67fd1cc4-ab64-4350-92e8-a6800ca64f44)
 
-![Image](https://github.com/user-attachments/assets/06509be4-3fcd-4ad6-bc89-ce7f25a10b72)
-
 
 - 제품 상세 페이지에서 수량을 선택할 수 있으며, 바로 구매와 장바구니를 선택할 수 있습니다.
 - 바로 구매 선택시 구매 페이지로 넘어가고 절차가 완료되면, 구매한 물품과 갯수, 총 가격이 구매내역 table에 저장됩니다.
